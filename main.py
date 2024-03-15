@@ -3,20 +3,9 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-def get_stock_data(symbol):
-  api_key = 'BO5DKIE2IIDZTP6W'  # Replace 'YOUR_API_KEY_HERE' with your actual API key
-  url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}'
-  response = requests.get(url)
-  data = response.json()
-  return data['Time Series (Daily)']
-
-# Route to display stock chart on a web page
-@app.route('/stock/<symbol>')
-def stock_chart(symbol):
-  stock_data = get_stock_data(symbol)
-  dates = list(stock_data.keys())
-  prices = [float(stock_data[date]['4. close']) for date in dates]
-  return render_template('stock_chart.html', symbol=symbol, dates=dates, prices=prices)
+@app.route('/stocks')
+def stocks():
+  return render_template('stock.html')
 
 
 def get_news():
